@@ -1,7 +1,7 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  check-openssl-version
+  check-openssl-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
