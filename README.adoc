@@ -1,0 +1,6 @@
+# GitHub Actions testing repository
+
+Just a simple repository to allow me to test/learn about GitHub Actions
+
+To clone this repository:
+git clone git@github.com:XaosTX/gha.git
