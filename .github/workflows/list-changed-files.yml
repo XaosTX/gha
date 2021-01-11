@@ -83,4 +83,17 @@ jobs:
         run: |
           cd ${{ matrix.directory }}
           echo "${{ matrix.directory }} ${{ matrix.os }}"
+
+  list-files:
+    name: List Changed Files
+    needs: generate-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd ${{ matrix.directory }}
           ls -al
