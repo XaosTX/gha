@@ -87,7 +87,6 @@ jobs:
   list-files:
     name: List Changed Files
     needs: generate-matrix
-    runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
     runs-on: ${{ matrix.os }}
