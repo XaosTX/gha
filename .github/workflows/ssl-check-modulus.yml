@@ -38,7 +38,7 @@ jobs:
           # Loop by lines
           while read path; do
             # Set $directory to substring before /
-            directory="$( echo $path | cut -d'/' -f1 -s )"
+            directory="$( echo $path |  | rev | cut -d/ -f2- | rev)"
 
             if [ -z "$directory" ]; then
               continue # Exclude root directory
@@ -46,12 +46,6 @@ jobs:
               continue # Exclude docs directory
             elif [ "$path" == *.rst ]; then
               continue # Exclude *.rst files
-            fi
-
-            # Set $os. "ubuntu-latest" by default. if directory starts with windows, then "windows-latest"
-            os="ubuntu-latest"
-            if [ "$directory" == windows* ]; then
-              os="windows-latest"
             fi
 
             # Add build to the matrix only if it is not already included
@@ -76,23 +70,12 @@ jobs:
     needs: generate-matrix
     strategy:
       matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build
         run: |
           cd ${{ matrix.directory }}
           echo "${{ matrix.directory }} ${{ matrix.os }}"
-
-  list-files:
-    name: List Changed Files
-    needs: generate-matrix
-    strategy:
-      matrix: ${{fromJson(needs.generate-matrix.outputs.matrix)}}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: |
           cd ${{ matrix.directory }}
           ls -al
