@@ -74,7 +74,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Get Variables
-      - id: set_var
+        id: set_var
         run: |
           content=`cat $GITHUB_WORKSPACE/${{ matrix.directory }}/vars.json`
           # the following lines are only required for multi line json
@@ -85,6 +85,7 @@ jobs:
           echo "::set-output name=varsJson:$content"
 
       - name: Test SSL moduli
+        id: test_ssl
         run: |
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
