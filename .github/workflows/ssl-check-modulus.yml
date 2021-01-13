@@ -73,8 +73,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Get Variables
-        id: set_var
+      - name: Test SSL moduli
+        id: test_ssl
         run: |
           content=`cat $GITHUB_WORKSPACE/${{ matrix.directory }}/vars.json`
           # the following lines are only required for multi line json
@@ -82,12 +82,10 @@ jobs:
           #content="${content//$'\n'/'%0A'}"
           #content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          echo "::set-output name=varsJson:$content"
+          #echo "::set-output name=varsJson:$content"
 
-      - name: Test SSL moduli
-        id: test_ssl
-        run: |
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
           ls -al
-          echo "${{steps.set_var.outputs.varsJson}}"
+          echo "${{content}}"
+          echo "${{fromJson(content).file.certificate}}"
