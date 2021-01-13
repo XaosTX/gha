@@ -73,8 +73,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
+      - name: Get Variables
+      - id: set_var
+        run: |
+          content=`cat $GITHUB_WORKSPACE/${{ matrix.directory }}/vars.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=varsJson:$content"
+
+      - name: Test SSL moduli
         run: |
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
           ls -al
+          CRT_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.certificate}}"
+          CSR_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.csr}}"
+          CHAIN_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.chain}}"
+
+          #----------------------------------------------------------------------------
+          #  Get modulus for each of the files
+          #----------------------------------------------------------------------------
+          [[ -f "${CRT_FILE}" ]] && MOD_CRT=$(openssl x509 -noout -modulus -in "${CRT_FILE}" | openssl md5 | cut -d= -f2)
+          [[ -f "${KEY_FILE}" ]] && MOD_KEY=$(openssl  rsa -noout -modulus -in "${KEY_FILE}" | openssl md5 | cut -d= -f2)
+          [[ -f "${CSR_FILE}" ]] && MOD_CSR=$(openssl  req -noout -modulus -in "${CSR_FILE}" | openssl md5 | cut -d= -f2)
+
+          echo "        CSR: ${MOD_CSR} ${CSR_FILE}"
+          echo "Certificate: ${MOD_CRT} ${CRT_FILE}"
