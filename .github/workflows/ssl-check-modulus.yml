@@ -87,11 +87,17 @@ jobs:
       - name: Test SSL moduli
         id: test_ssl
         run: |
-          echo "${{ matrix.directory }}"
+          echo "Entering ${{ matrix.directory }}..."
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
-          ls -al
           CRT_FILE="${{fromJson(steps.set.outputs.varsJson).file.certificate}}"
-          echo "CRT_FILE: ${CRT_FILE}"
-          echo "Vars: $varsJson"
+          CSR_FILE="${{fromJson(steps.set.outputs.varsJson).file.csr}}"
+          #----------------------------------------------------------------------------¬
+          # Get modulus for each of the files¬
+          #----------------------------------------------------------------------------¬
+          [[ -f "${CRT_FILE}" ]] && MOD_CRT=$(openssl x509 -noout -modulus -in "${CRT_FILE}" | openssl md5 | cut -d= -f2)¬
+          [[ -f "${CSR_FILE}" ]] && MOD_CSR=$(openssl  req -noout -modulus -in "${CSR_FILE}" | openssl md5 | cut -d= -f2)¬
+                     
+          echo "CSR_FILE: ${MOD_CSR} ${CSR_FILE}"
+          echo "CRT_FILE: ${MOD_CRT} ${CRT_FILE}"
         env:
           varsJson: ${{ steps.set.outputs.varsJson }}
