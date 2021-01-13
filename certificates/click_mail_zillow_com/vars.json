@@ -1,0 +1,36 @@
+
+#option:
+#  verify: true # (true/false) Verify certificate files before import
+#  import: true # (true/false) Import certificate files into AWS Certificate Manager (ACM)
+#  attach: true # (true/false) Attach ACM certificate to elbv2 listener(s)
+#  test: true   # (true/false) Run inspec SSL tests on all DNS names on loadbalancer
+#file:
+#  csr: click_mail_zillow_com.crt          # (filename) CSR filename
+#  certificate: click_mail_zillow_com.crt  # (filename) Certificate filename
+#  chain: DigiCertCA.crt                   # (filename) Intermediate Chain filename
+#aws:
+#  profile: sparkposttest
+#  region: us-west-2
+#
+#  certificate_arn:                        # (arn) Certificate ARN for ACM certificate (leave blank if importing files)
+#  listener_arns: arn1 arn2 arn3...        # (space-delimited list of arns)
+
+{
+   "option": {
+      "verify": true,
+      "import": true,
+      "attach": true,
+      "test": true
+   },
+   "file": {
+      "csr": "click_mail_zillow_com.crt",
+      "certificate": "click_mail_zillow_com.crt",
+      "chain": "DigiCertCA.crt"
+   },
+   "aws": {
+      "profile": "sparkposttest",
+      "region": "us-west-2"
+   },
+   "certificate_arn": null,
+   "listener_arns": "arn1 arn2 arn3"
+}
