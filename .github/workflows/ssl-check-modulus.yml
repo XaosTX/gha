@@ -90,7 +90,7 @@ jobs:
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
           ls -al
-          CRT_FILE="${{fromJson($varsJson).file.certificate}}"
+          CRT_FILE="${{fromJson(steps.set.outputs.varsJson).file.certificate}}"
           echo "CRT_FILE: ${CRT_FILE}"
           echo "Vars: $varsJson"
         env:
