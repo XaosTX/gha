@@ -42,7 +42,7 @@ jobs:
 
             if [ -z "$directory" ]; then
               continue # Exclude root directory
-            elif [ "$directory" != *"certificates"* ]; then
+            elif [ "$directory" == docs ]; then
               continue # Exclude docs directory
             elif [ "$path" == *.rst ]; then
               continue # Exclude *.rst files
