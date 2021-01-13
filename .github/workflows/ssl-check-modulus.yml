@@ -90,18 +90,3 @@ jobs:
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
           ls -al
-          echo "${{steps.set_var.outputs.varsJson}}
-
-          #CRT_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.certificate}}"
-          #CSR_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.csr}}"
-          #CHAIN_FILE="${{fromJson(steps.set_var.outputs.varsJson).file.chain}}"
-
-          #----------------------------------------------------------------------------
-          #  Get modulus for each of the files
-          #----------------------------------------------------------------------------
-          [[ -f "${CRT_FILE}" ]] && MOD_CRT=$(openssl x509 -noout -modulus -in "${CRT_FILE}" | openssl md5 | cut -d= -f2)
-          [[ -f "${KEY_FILE}" ]] && MOD_KEY=$(openssl  rsa -noout -modulus -in "${KEY_FILE}" | openssl md5 | cut -d= -f2)
-          [[ -f "${CSR_FILE}" ]] && MOD_CSR=$(openssl  req -noout -modulus -in "${CSR_FILE}" | openssl md5 | cut -d= -f2)
-
-          echo "        CSR: ${MOD_CSR} ${CSR_FILE}"
-          echo "Certificate: ${MOD_CRT} ${CRT_FILE}"
