@@ -7,8 +7,8 @@
    },
    "file": {
       "csr": "wildcard.sparkpostmail.com.csr",
-      "certificate": "wildcard.sparkpostmail.com.crt",
-      "chain": "DigiCertCA.crt"
+      "certificate": "star_sparkpostmail_com_78011079star_sparkpostmail_com.crt",
+      "chain": "star_sparkpostmail_com_78011079DigiCertCA.crt"
    },
    "aws": {
       "profile": "sparkposttest",
