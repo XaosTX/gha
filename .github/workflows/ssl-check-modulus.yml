@@ -87,4 +87,4 @@ jobs:
           echo "${{ matrix.directory }}"
           cd "$GITHUB_WORKSPACE/${{ matrix.directory }}"
           ls -al
-          echo "${content}"
+          echo "${{fromJson(${content}).file.certificate}}"
