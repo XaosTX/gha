@@ -1,0 +1,19 @@
+{
+   "option": {
+      "verify": true,
+      "import": false,
+      "attach": false,
+      "test": false
+   },
+   "file": {
+      "csr": "wildcard.sparkpostmail.com.csr",
+      "certificate": "wildcard.sparkpostmail.com.crt",
+      "chain": "DigiCertCA.crt"
+   },
+   "aws": {
+      "profile": "sparkposttest",
+      "region": "us-west-2"
+   },
+   "certificate_arn": null,
+   "listener_arns": "arn1 arn2 arn3"
+}
